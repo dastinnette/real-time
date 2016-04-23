@@ -19,6 +19,8 @@ const server = http.createServer(app)
 const socketIo = require('socket.io');
 const io = socketIo(server);
 
+var votes = {};
+
 io.on('connection', function (socket) {
   console.log('A user has connected.', io.engine.clientsCount);
 
@@ -28,7 +30,16 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', function () {
     console.log('A user has disconnected.', io.engine.clientsCount);
-    io.sockets.emit('userConnection', io.engine.clientsCount);
+    delete votes[socket.id];
+    console.log(votes);
+    io.sockets.emit('usersConnected', io.engine.clientsCount);
+  });
+
+  socket.on('message', function (channel, message) {
+    if (channel === 'voteCast') {
+      votes[socket.id] = message;
+      console.log(votes);
+    }
   });
 });
 
