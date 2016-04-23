@@ -1,0 +1,25 @@
+{
+  "name": "crowdsource",
+  "version": "1.0.0",
+  "description": "A node app to poll groups ",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dastinnette/real-time.git"
+  },
+  "author": "dastinnette",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dastinnette/real-time/issues"
+  },
+  "homepage": "https://github.com/dastinnette/real-time#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "lodash": "^4.11.1",
+    "socket.io": "^1.4.5"
+  }
+}
