@@ -16,4 +16,7 @@ const server = http.createServer(app)
                     console.log('Listening on port ' + port + '.');
                   });
 
+const socketIo = require('socket.io');
+const io = socketIo(server);
+
 module.exports = server;
