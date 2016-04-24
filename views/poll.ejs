@@ -8,9 +8,13 @@
   <body>
 
     <div class="container">
-      <h3>Share your poll with this url</h3>
-      <p><%= url %></p>
-      <h3>Poll results</h3>
+      <h4><%= question %></h4>
+      <div id="poll">
+        <% options.forEach(function(option){ %>
+          <button class="btn"><%= option %></button><br><br>
+        <% }); %>
+      </div>
+      <br>
       <div id="connection-count"></div>
     </div>
 
