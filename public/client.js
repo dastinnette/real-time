@@ -1,7 +1,6 @@
 var socket = io();
 
 var connectionCount = document.getElementById('connection-count');
-var statusMessage = document.getElementById('status-message');
 var buttons = document.querySelectorAll('#choices button');
 
 socket.on('usersConnected', function (count) {
