@@ -23,9 +23,7 @@ var votes = {};
 io.on('connection', function (socket) {
   console.log('A user has connected.', io.engine.clientsCount);
 
-  io.sockets.emit('userConnection', io.engine.clientsCount);
-
-  socket.emit('statusMessage', 'You have connected.');
+  io.sockets.emit('usersConnected', io.engine.clientsCount);
 
   socket.on('message', function (channel, message) {
     if (channel === 'voteCast') {

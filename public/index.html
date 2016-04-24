@@ -1,20 +1,44 @@
 <!doctype html>
 <html>
   <head>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css'>
+
     <title>crowdsource</title>
   </head>
   <body>
-    <h1>Yeah, well, that's just, like, your opinion, man</h1>
+    <div class="container">
 
-    <div id="connection-count"></div>
-    <div id="status-message"></div>
-    <div id="choices">
-      <button>This is old hat to me</button><br>
-      <button>I have an okay understanding of this</button><br>
-      <button>I have no idea what you're babbling about</button>
+    <h1>
+      <a href="https://www.youtube.com/watch?v=pWdd6_ZxX8c" target="_blank">
+        Yeah, well, that's just, like, your opinion, man
+      </a>
+    </h1>
+    <hr>
+    <h3>Create a new poll</h3>
+
+      <div class="create-poll">
+        <form action="/polls" method="post" name="poll">
+          Enter your question
+          <input type="text" name="poll[question]" placeholder="What's the poll topic?"><br><br>
+          Choice A
+          <input type="text" name="poll[options][]" class="option" placeholder="Add some choices"><br>
+          Choice B
+          <input type="text" name="poll[options][]" class="option" placeholder="Add some choices"><br>
+          Choice C
+          <input type="text" name="poll[options][]" class="option" placeholder="Add some choices"><br>
+          Choice D
+          <input type="text" name="poll[options][]" class="option" placeholder="Add some choices"><br>
+          <br>
+          <button class="btn" type="submit">Create poll</button>
+        </form>
+      </div>
+      <br>
+
+      <div id="connection-count"></div>
+      <br>
+      <br>
     </div>
 
-    <!-- Make sure your JS is at the bottom of the body! -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="/client.js"></script>
   </body>
