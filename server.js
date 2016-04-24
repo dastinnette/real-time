@@ -9,33 +9,42 @@ const server = http.createServer(app)
 const socketIo = require('socket.io');
 const io = socketIo(server);
 const bodyParser = require('body-parser');
+const generateId = require('./lib/generate-id');
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.locals.poll = {};
+
 app.get('/', function (req, res){
   res.sendFile(__dirname + '/public/index.html');
 });
 
-var votes = {};
+app.post('/polls', (request, response) => {
+  if (!request.body.poll) { return response.sendStatus(400); }
+  var id = generateId();
+  var admin = generateId();
+  app.locals.polls[id] = {};
+  app.locals.polls[id].question = request.body.poll.question;
+  app.locals.polls[id].options = getOptions(request.body.poll.options);
+  app.locals.polls[id].adminID = admin;
+  console.log(app.locals.polls[id]);
+});
+
+function getOptions(options) {
+  return Object.keys(options).map(function (key) {
+      return options[key];
+  });
+}
 
 io.on('connection', function (socket) {
   console.log('A user has connected.', io.engine.clientsCount);
 
   io.sockets.emit('usersConnected', io.engine.clientsCount);
 
-  socket.on('message', function (channel, message) {
-    if (channel === 'voteCast') {
-      votes[socket.id] = message;
-      socket.emit('voteCount', countVotes(votes));
-    }
-  });
-
   socket.on('disconnect', function () {
     console.log('A user has disconnected.', io.engine.clientsCount);
-    delete votes[socket.id];
-    socket.emit('voteCount', countVotes(votes));
     io.sockets.emit('userConnection', io.engine.clientsCount);
   });
 });
