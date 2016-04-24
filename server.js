@@ -8,8 +8,11 @@ const server = http.createServer(app)
                    });
 const socketIo = require('socket.io');
 const io = socketIo(server);
+const bodyParser = require('body-parser');
 
 app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', function (req, res){
   res.sendFile(__dirname + '/public/index.html');
