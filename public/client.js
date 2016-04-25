@@ -38,9 +38,9 @@ if ($('#close-poll')[0]) {
 }
 
 socket.on('pollClosed', function (message) {
-  $pollThings = $('#poll-report-status');
-  if ($pollThings !== null && message.pollID === pollID) {
-    $pollThings.empty().append('<h3>This poll is closed</h3>');
+  $pollReport = $('#poll-report-status');
+  if ($pollReport !== null && message.pollID === pollID) {
+    $pollReport.empty().append('<h3>This poll is closed</h3>');
   }
   $pollStatus = $('#poll-status');
   if ($pollStatus !== null && message.pollID === pollID) {
