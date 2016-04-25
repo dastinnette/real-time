@@ -64,7 +64,9 @@ app.get('/polls/:pollID', function (req, res){
   res.render('poll', {pollID: pollID,
                       question: poll.question,
                       options: poll.options,
-                      closed: poll.closed});
+                      closed: poll.closed,
+                      share: poll.share,
+                      results: countVotes(poll)});
 });
 
 app.get('/polls/:pollID/admin/:adminID', function (req, res){

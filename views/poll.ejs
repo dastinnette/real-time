@@ -23,6 +23,17 @@
         <% } %>
       </div>
 
+      <div class="poll-results">
+        <% if (share === 'on') { %>
+        <h3>Poll Results:</h3>
+        <div id="results">
+          <% for (var option in results){ %>
+            <p><%= option %>: <%= results[option]%></p>
+          <% } %>
+        </div>
+        <% } %>
+      </div>
+
       <div id="connection-count"></div>
     </div>
 
