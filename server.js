@@ -49,7 +49,8 @@ app.get('/polls/:pollID/admin/:adminID', function (req, res){
   var pollID = req.params.pollID;
   var poll = app.locals.polls[pollID];
   res.render('admin', {pollID: pollID,
-                            url: poll.url});
+                            url: poll.url,
+                            results: countVotes(poll)});
 });
 
 io.on('connection', function (socket) {
@@ -59,7 +60,10 @@ io.on('connection', function (socket) {
 
   socket.on('message', function (channel, message) {
     if (channel === 'voteCast') {
-      app.locals.polls[message.id].votes[socket.id] = message.vote;
+      var poll = app.locals.polls[message.id];
+      poll.votes[socket.id] = message.vote;
+      socket.emit('voteRecorded', 'You chose ' + message.vote);
+      io.sockets.emit('voteCount', {votes: countVotes(poll), pollID: message.id});
     }
   });
 
@@ -69,6 +73,18 @@ io.on('connection', function (socket) {
   });
 
 });
+
+function countVotes(poll) {
+  var voteCount = {};
+  poll.options.forEach(function(option) {
+    voteCount[option] = 0;
+  });
+
+  for (var vote in poll.votes) {
+    voteCount[poll.votes[vote]]++;
+  }
+  return voteCount;
+}
 
 if (!module.parent) {
   app.listen(app.get('port'), () => {

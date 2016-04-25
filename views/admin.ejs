@@ -11,6 +11,11 @@
       <h3>Share your poll with this url</h3>
       <p><%= url %></p>
       <h3>Poll results</h3>
+      <div id="results">
+        <% for (var option in results) { %>
+          <p><%= option %>: <%= results[option] %></p>
+        <% } %>
+      </div>
       <div id="connection-count"></div>
     </div>
 
