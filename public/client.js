@@ -45,7 +45,7 @@ var pollThings = document.getElementById('#poll-things');
 socket.on('pollClosed', function (message) {
   $pollThings = $('#poll-things');
   if ($pollThings !== null && message.pollID === pollID) {
-    $pollThings.empty().append('<p>This poll is closed. Sad day for you.</p>');
+    $pollThings.empty().append('<p>This poll is closed</p>');
   }
   $pollStatus = $('#poll-status');
   if ($pollStatus !== null && message.pollID === pollID) {

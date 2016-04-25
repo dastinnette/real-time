@@ -35,15 +35,19 @@ app.post('/polls', (request, response) => {
   app.locals.polls[id].votes = {};
   app.locals.polls[id].closed = false;
 
+  autoClosePoll(id);
+
+  response.redirect('/polls/' + id + '/admin/' + admin);
+});
+
+function autoClosePoll(id) {
   if (app.locals.polls[id].closeTime !== "") {
     setTimeout(function(){
       app.locals.polls[id].closed = true;
       io.sockets.emit('pollClosed', {pollID: id});
     }, minutesToMilliseconds(app.locals.polls[id].closeTime));
   }
-
-  response.redirect('/polls/' + id + '/admin/' + admin );
-});
+}
 
 function minutesToMilliseconds(minutes) {
   return Number(minutes) * 60000;
