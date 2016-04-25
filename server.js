@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const generateId = require('./lib/generate-id');
+const millisecondConversion = require('./lib/millisecond-conversion');
 const port = process.env.PORT || 3000;
 const server = http.createServer(app)
                  .listen(port, function () {
@@ -48,12 +49,8 @@ function autoClosePoll(id) {
     setTimeout(function(){
       app.locals.polls[id].closed = true;
       io.sockets.emit('pollClosed', {pollID: id});
-    }, minutesToMilliseconds(app.locals.polls[id].closeTime));
+    }, millisecondConversion(app.locals.polls[id].closeTime));
   }
-}
-
-function minutesToMilliseconds(minutes) {
-  return Number(minutes) * 60000;
 }
 
 function removeEmpty(strings) {
