@@ -16,7 +16,6 @@ const io = socketIo(server);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
-
 app.set('view engine', 'ejs');
 
 app.locals.polls = {};
@@ -38,7 +37,6 @@ app.post('/polls', (request, response) => {
   app.locals.polls[id].url = app.locals.production + "polls/" + id;
   app.locals.polls[id].votes = {};
   app.locals.polls[id].closed = false;
-
   autoClosePoll(id);
 
   response.redirect('/polls/' + id + '/admin/' + admin);
@@ -80,8 +78,6 @@ app.get('/polls/:pollID/admin/:adminID', function (req, res){
 });
 
 io.on('connection', function (socket) {
-  console.log('A user has connected.', io.engine.clientsCount);
-
   io.sockets.emit('usersConnected', io.engine.clientsCount);
 
   socket.on('message', function (channel, message) {
@@ -97,7 +93,6 @@ io.on('connection', function (socket) {
   });
 
   socket.on('disconnect', function () {
-    console.log('A user has disconnected.', io.engine.clientsCount);
     io.sockets.emit('usersConnected', io.engine.clientsCount);
   });
 });
@@ -107,7 +102,6 @@ function countVotes(poll) {
   poll.options.forEach(function(option) {
     voteCount[option] = 0;
   });
-
   for (var vote in poll.votes) {
     voteCount[poll.votes[vote]]++;
   }

@@ -2,7 +2,7 @@ var socket = io();
 var connectionCount = document.getElementById('connection-count');
 var buttons = document.querySelectorAll('#poll button');
 var pollID = document.location.href.split('/')[4];
-var pollThings = document.getElementById('#poll-things');
+var pollThings = document.getElementById('#poll-report-status');
 
 socket.on('usersConnected', function (count) {
   connectionCount.innerText = 'Connected Users: ' + count;
@@ -15,7 +15,6 @@ for (var i = 0; i < buttons.length; i++) {
 }
 
 socket.on('voteCount', function (votes) {
-  console.log(votes);
   $results = $('#results');
   if ($results !== null && votes.pollID === pollID) {
     $('#results').empty();
@@ -34,13 +33,12 @@ socket.on('voteRecorded', function (message) {
 
 if ($('#close-poll')[0]) {
   $('#close-poll')[0].addEventListener('click', function () {
-    console.log("close this poll!");
     socket.send('closePoll', {id: pollID});
   });
 }
 
 socket.on('pollClosed', function (message) {
-  $pollThings = $('#poll-things');
+  $pollThings = $('#poll-report-status');
   if ($pollThings !== null && message.pollID === pollID) {
     $pollThings.empty().append('<h3>This poll is closed</h3>');
   }
