@@ -8,14 +8,21 @@
   <body>
 
     <div class="container">
-      <h4><%= question %></h4>
-      <div id="poll">
-        <% options.forEach(function(option){ %>
-          <button class="btn"><%= option %></button><br><br>
-        <% }); %>
+      <div id="poll-things">
+        <br>
+        <% if (closed) { %>
+          <p>This poll is closed</p>
+        <% } else { %>
+            <h4><%= question %></h4>
+            <div id="poll">
+              <% options.forEach(function(option){ %>
+                <button class="btn"><%= option %></button><br><br>
+              <% }); %>
+            </div>
+            <div id="selection"></div>
+        <% } %>
       </div>
-      <div id="selection"></div>
-      <br>
+
       <div id="connection-count"></div>
     </div>
 

@@ -42,7 +42,8 @@ app.get('/polls/:pollID', function (req, res){
   var poll = app.locals.polls[pollID];
   res.render('poll', {pollID: pollID,
                       question: poll.question,
-                      options: poll.options});
+                      options: poll.options,
+                      closed: poll.closed});
 });
 
 app.get('/polls/:pollID/admin/:adminID', function (req, res){
@@ -50,7 +51,8 @@ app.get('/polls/:pollID/admin/:adminID', function (req, res){
   var poll = app.locals.polls[pollID];
   res.render('admin', {pollID: pollID,
                             url: poll.url,
-                            results: countVotes(poll)});
+                            results: countVotes(poll),
+                            closed: poll.closed});
 });
 
 io.on('connection', function (socket) {
@@ -59,11 +61,14 @@ io.on('connection', function (socket) {
   io.sockets.emit('usersConnected', io.engine.clientsCount);
 
   socket.on('message', function (channel, message) {
+    var poll = app.locals.polls[message.id];
     if (channel === 'voteCast') {
-      var poll = app.locals.polls[message.id];
       poll.votes[socket.id] = message.vote;
       socket.emit('voteRecorded', 'You chose ' + message.vote);
       io.sockets.emit('voteCount', {votes: countVotes(poll), pollID: message.id});
+    } else if (channel === 'closePoll') {
+      poll.closed = true;
+      io.sockets.emit('pollClosed', {pollID: message.id});
     }
   });
 
@@ -71,7 +76,6 @@ io.on('connection', function (socket) {
     console.log('A user has disconnected.', io.engine.clientsCount);
     io.sockets.emit('usersConnected', io.engine.clientsCount);
   });
-
 });
 
 function countVotes(poll) {

@@ -14,6 +14,7 @@
         </a>
       </h1>
       <hr>
+
       <h3>Share your poll with this url</h3>
       <p><%= url %></p>
       <h3>Poll results</h3>
@@ -22,6 +23,16 @@
           <p><%= option %>: <%= results[option] %></p>
         <% } %>
       </div>
+
+      <div id="poll-status">
+        <% if (closed) { %>
+          <p>Poll is closed</p>
+        <% } else { %>
+          <p>Poll is open</p>
+          <button class="btn" id="close-poll">Close poll</button>
+        <% } %>
+      </div>
+      <br>
       <div id="connection-count"></div>
     </div>
 
