@@ -34,8 +34,20 @@ app.post('/polls', (request, response) => {
   app.locals.polls[id].url = "http://localhost:3000/polls/" + id;
   app.locals.polls[id].votes = {};
   app.locals.polls[id].closed = false;
+
+  if (app.locals.polls[id].closeTime !== "") {
+    setTimeout(function(){
+      app.locals.polls[id].closed = true;
+      io.sockets.emit('pollClosed', {pollID: id});
+    }, minutesToMilliseconds(app.locals.polls[id].closeTime));
+  }
+
   response.redirect('/polls/' + id + '/admin/' + admin );
 });
+
+function minutesToMilliseconds(minutes) {
+  return Number(minutes) * 60000;
+}
 
 app.get('/polls/:pollID', function (req, res){
   var pollID = req.params.pollID;
@@ -52,7 +64,8 @@ app.get('/polls/:pollID/admin/:adminID', function (req, res){
   res.render('admin', {pollID: pollID,
                             url: poll.url,
                             results: countVotes(poll),
-                            closed: poll.closed});
+                            closed: poll.closed,
+                            closeTime: poll.closeTime});
 });
 
 io.on('connection', function (socket) {
