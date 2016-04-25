@@ -19,7 +19,8 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 app.locals.polls = {};
-app.locals.title = "Crowdsource";
+app.locals.title = "crowdsource";
+app.locals.production = "https://just-like-your-opinion-man.herokuapp.com/";
 
 app.get('/', function (req, res){
   res.sendFile(__dirname + '/public/index.html');
@@ -29,9 +30,11 @@ app.post('/polls', (request, response) => {
   if (!request.body.poll) { return response.sendStatus(400); }
   var id = generateId();
   var admin = generateId();
+
   app.locals.polls[id] = request.body.poll;
+  app.locals.polls[id].options = removeEmpty(request.body.poll.options);
   app.locals.polls[id].adminID = admin;
-  app.locals.polls[id].url = "http://localhost:3000/polls/" + id;
+  app.locals.polls[id].url = app.locals.production + "polls/" + id;
   app.locals.polls[id].votes = {};
   app.locals.polls[id].closed = false;
 
@@ -51,6 +54,11 @@ function autoClosePoll(id) {
 
 function minutesToMilliseconds(minutes) {
   return Number(minutes) * 60000;
+}
+
+function removeEmpty(strings) {
+  return strings.filter(
+    function (string) { return string !== ""; });
 }
 
 app.get('/polls/:pollID', function (req, res){
