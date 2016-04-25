@@ -11,9 +11,9 @@
       <div id="poll-things">
         <br>
         <% if (closed) { %>
-          <p>This poll is closed</p>
+          <h3>This poll is closed</h3>
         <% } else { %>
-            <h4><%= question %></h4>
+            <h3><%= question %></h3>
             <div id="poll">
               <% options.forEach(function(option){ %>
                 <button><%= option %></button><br><br>
