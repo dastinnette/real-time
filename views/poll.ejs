@@ -18,9 +18,10 @@
       <div id="poll-report-status">
         <br>
         <% if (closed) { %>
-          <h3>This poll is closed</h3>
+          <h4>This poll is closed</h4>
         <% } else { %>
-            <h3><%= question %></h3>
+            <h4><%= question %></h4>
+            <br>
             <div id="poll">
               <% options.forEach(function(option){ %>
                 <button><%= option %></button><br><br>
@@ -32,7 +33,8 @@
 
       <div class="poll-results">
         <% if (share === 'on') { %>
-        <h3>Poll Results:</h3>
+        <h4>Poll results</h4>
+        <h5><%= question %></h5>
         <div id="results">
           <% for (var option in results){ %>
             <p><%= option %>: <%= results[option]%></p>

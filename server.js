@@ -71,6 +71,7 @@ app.get('/polls/:pollID/admin/:adminID', function (req, res){
   var pollID = req.params.pollID;
   var poll = app.locals.polls[pollID];
   res.render('admin', {pollID: pollID,
+                            question: poll.question,
                             url: poll.url,
                             results: countVotes(poll),
                             closed: poll.closed,

@@ -14,12 +14,12 @@
         </a>
       </h1>
       <hr>
-      <h3>Create a new poll</h3>
+      <h3>Crowdsource the masses</h3>
 
       <div class="create-poll">
         <form action="/polls" method="post" name="poll">
           Enter your question
-          <input type="text" name="poll[question]" placeholder="What's the poll topic?"><br><br>
+          <input type="text" name="poll[question]" placeholder="What's the poll topic?"><br>
           Choice A
           <input type="text" name="poll[options][]" class="option" placeholder="Add some choices"><br>
           Choice B
@@ -29,8 +29,9 @@
           Choice D
           <input type="text" name="poll[options][]" class="option" placeholder="Optionally, add more choices"><br>
           Determine how long the poll should remain open (in minutes)
-          <input type="text" name="poll[closeTime]" placeholder="For example: 15"><br>
-          <input type="checkbox" name="poll[share]" id="myCheckbox"><label for="myCheckbox">Click to share results</label><br><br>
+          <input type="text" name="poll[closeTime]" placeholder="For example: 30"><br>
+          <input type="checkbox" name="poll[share]" id="myCheckbox">
+          <label for="myCheckbox">Click to share results with participants</label><br><br>
           <button class="btn" type="submit">Create poll</button>
         </form>
       </div>
